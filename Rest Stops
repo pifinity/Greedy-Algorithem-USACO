@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.*;
+
+public class RestStops {
+    static class stop implements Comparable<stop>{
+        int dis, taste;
+
+        public stop(int distance, int tastiness){
+            this.dis =distance;
+            this.taste = tastiness;
+        }
+
+        public int compareTo(stop o){return o.taste-this.taste;}
+
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new FileReader("reststops.in"));
+        PrintWriter out = new PrintWriter("reststops.out");
+
+        StringTokenizer st = new StringTokenizer(bf.readLine());
+
+        int length = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int F = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        stop[] stops = new stop[N];
+
+        for (int i= 0 ; i <N; i++){
+            st = new StringTokenizer(bf.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            stops[i] = new stop(a, b);
+        }
+        Arrays.sort(stops);
+
+        for (stop i: stops){
+            System.out.println(i.dis+" "+i.taste);
+        }
+
+
+
+        long ret = 0;
+        long curr =0;
+
+        for (stop i: stops){
+            long distance = i.dis-curr;
+            long time = F*distance-B*distance;
+            if (i.dis>curr){
+                ret+=time*i.taste;
+                curr = i.dis;
+            }
+        }
+
+        out.println(ret);
+        out.close();
+
+    }
+}

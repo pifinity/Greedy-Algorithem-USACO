@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+
+class HighCardWins {
+
+    static int bestCard(int lowest){
+        int N = bess.size();
+        int high = N-1;
+        int low = 0;
+
+
+        do {
+            int middle = getMiddle(low, high);
+            if (bess.get(middle)>lowest) high = middle;
+            if (bess.get(middle)<lowest) low = middle;
+            if (bess.get(low)<lowest&&bess.get(low+1)>lowest) {
+                bess.remove(low+1);
+                return 1;
+            }
+            if (bess.get(high)>lowest&&bess.get(high-1)<lowest) {
+                bess.remove(high);
+                return 1;
+            }
+
+
+
+        } while (low!=high-1);
+
+
+
+        return 0;
+    }
+
+    static int getMiddle(int x, int y){
+        return x+(y-x)/2;
+    }
+
+
+    static int[] Elsie;
+    static ArrayList<Integer> bess;
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader bf = new BufferedReader(new FileReader("highcard.in"));
+        PrintWriter out = new PrintWriter("highcard.out");
+
+        int N = Integer.parseInt(bf.readLine());
+
+        Elsie = new int[2*N];
+
+        bess = new ArrayList<>(N);
+        bess.add(0);
+
+
+        for (int i=0; i<N; i++){
+            int card = Integer.parseInt(bf.readLine());
+
+            Elsie[card-1] = 1;
+        }
+
+        for (int i=0; i<2*N; i++){
+            if (Elsie[i]==0) bess.add(i+1);
+        }
+
+        int ret = 0;
+        for (int i=0; i<2*N; i++){
+            if (Elsie[i]==1) ret+=bestCard(i+1);
+        }
+
+        out.println(ret);
+        out.close();
+
+
+
+        System.out.println(Arrays.toString(Elsie));
+        System.out.println(bess);
+
+    }
+}

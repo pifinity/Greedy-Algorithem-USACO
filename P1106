@@ -1,0 +1,60 @@
+import java.io.*;
+
+public class P1106 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+        String num = bf.readLine();
+        int r = Integer.parseInt(bf.readLine());
+
+        boolean isOrdered;
+        int removed = 0;
+
+        do{
+            isOrdered = true;
+
+            for (int i=0; i<num.length()-1; i++){
+                if (num.charAt(i)>num.charAt(i+1)) {
+                    num = num.substring(0, i)+num.substring(i+1);
+                    isOrdered = false;
+                    removed++;
+                    System.out.println(num);
+                    break;
+                }
+            }
+
+        } while (!isOrdered&&removed<r);
+
+        while (removed<r){
+            char max = 0;
+            int maxInd = 0;
+            for (int i=0; i<num.length(); i++){
+                if (num.charAt(i)>max){
+                    max = num.charAt(i);
+                    maxInd = i;
+
+                }
+            }
+            if (maxInd>=num.length()-1){
+                num = num.substring(0, maxInd);
+                removed++;
+            }else {
+                num = num.substring(0, maxInd) + num.substring(maxInd + 1);
+                removed++;
+            }
+
+        }
+
+        boolean hasZeroes = true;
+        for (int i=0; i<num.length(); i++){
+            if (hasZeroes){
+                if (num.charAt(i)!='0'){
+                    hasZeroes = false;
+                    System.out.print(num.charAt(i));
+                }
+            }
+        }
+
+
+    }
+}
